@@ -19,7 +19,8 @@ export async function registerUser(formData: FormData) {
   })
 
   if (!validated.success) {
-    return { error: validated.error.errors[0].message }
+    // Just redirect back for now (simple version)
+    redirect("/register?error=Invalid input")
   }
 
   const { name, email, password } = validated.data
@@ -29,7 +30,7 @@ export async function registerUser(formData: FormData) {
   })
 
   if (existingUser) {
-    return { error: "Email already registered" }
+    redirect("/register?error=Email already registered")
   }
 
   const hashedPassword = await bcrypt.hash(password, 10)
